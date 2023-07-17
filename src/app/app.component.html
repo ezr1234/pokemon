@@ -1,33 +1,60 @@
-<nav class="navbar navbar-expand-lg bg-body-tertiary">
+<nav class="navbar bg-body-tertiary">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#">Navbar</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
-      aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNavDropdown">
-      <ul class="navbar-nav">
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Home</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Features</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Pricing</a>
-        </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Dropdown link
-          </a>
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#">Action</a></li>
-            <li><a class="dropdown-item" href="#">Another action</a></li>
-            <li><a class="dropdown-item" href="#">Something else here</a></li>
-          </ul>
-        </li>
-      </ul>
-    </div>
+    <a class="navbar-brand">
+      <img src="assets/images/pokemon-logo-8.png" alt="" width="200" height="80" class="d-inline-block align-text-top">
+    </a>
   </div>
 </nav>
+
+<body class="bg-body-primary  p-2">
+  <div class="container-lg">
+
+    <form class="d-flex col-12 justify-content-center" role="search">
+      <input class="form-control me-2" type="search" placeholder="Search Pokémon" aria-label="Search-Pokémon">
+      <button class="btn btn-outline-success" type="submit">
+        Search</button>
+    </form>
+
+    <div class="  card mb-3  " style=" max-width: 850px; margin-top: 2%;"
+      *ngFor="let pokemon of pokemonList$ | async; index as i">
+      <div class=" row g-0">
+        <div class="col-md-4">
+          <img src="..." class="img-fluid rounded-start" alt="...">
+        </div>
+        <div class="col-md-4">
+          <div class="card-body">
+            <h5 class="card-title">Nome do pokemon</h5>
+            <p class="card-text"> Descrição do Pokémon</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card-body">
+            <h5 class="card-title">{{pokemon.name}}</h5>
+            <p class="card-text"> {{pokemon.englishDescription}}</p>
+            <div class="btn-group button" style="gap: 10px;">
+              <button type="button btn" class="btn btn-primary">Primary</button>
+              <button type="button btn " class="btn btn-secondary">Secondary</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer aria-label="Page navigation example">
+    <ul class="pagination justify-content-center">
+      <li class="page-item" (click)="previousPage()">
+        <a class="page-link">Previous</a>
+      </li>
+      <li class="page-item"><a class="page-link" href="#">1</a></li>
+      <li class="page-item"><a class="page-link" href="#">2</a></li>
+      <li class="page-item"><a class="page-link" href="#">3</a></li>
+      <li class="page-item"><a class="page-link" href="#">4</a></li>
+      <li class="page-item"><a class="page-link" href="#">5</a></li>
+      <li class="page-item">
+        <a class="page-link" (click)="nextPage()">Next</a>
+      </li>
+    </ul>
+  </footer>
+</body>
 <router-outlet></router-outlet>
