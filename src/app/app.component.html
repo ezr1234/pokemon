@@ -1,39 +1,64 @@
 <nav class="navbar bg-body-tertiary">
   <div class="container-fluid">
     <a class="navbar-brand">
-      <img src="assets/images/pokemon-logo-8.png" alt="" width="200" height="80" class="d-inline-block align-text-top">
+      <img
+        src="assets/images/pokemon-logo-8.png"
+        alt=""
+        width="200"
+        height="80"
+        class="d-inline-block align-text-top"
+      />
     </a>
   </div>
 </nav>
 
-<body class="bg-body-primary  p-2">
+<body class="bg-body-primary p-2">
   <div class="container-lg">
-
     <form class="d-flex col-12 justify-content-center" role="search">
-      <input class="form-control me-2" type="search" placeholder="Search Pokémon" aria-label="Search-Pokémon">
-      <button class="btn btn-outline-success" type="submit">
-        Search</button>
+      <input
+        class="form-control me-2"
+        type="search"
+        placeholder="Search Pokémon"
+        aria-label="Search-Pokémon"
+      />
+      <button class="btn btn-outline-success" type="submit">Search</button>
     </form>
-
-    <div class="  card mb-3  " style=" max-width: 850px; margin-top: 2%;"
-      *ngFor="let pokemon of pokemonList$ | async; index as i">
-      <div class=" row g-0">
+    <div
+      class="card mb-3"
+      style="max-width: 850px; margin-top: 2%"
+      *ngFor="let pokemon of pokemonList$ | async; index as i"
+    >
+      <div class="row g-0">
         <div class="col-md-4">
-          <img src="..." class="img-fluid rounded-start" alt="...">
+          <img
+            src="{{ pokemon.characteristics.sprites.front_default }}"
+            class="img-fluid rounded-start"
+            alt="..."
+          />
         </div>
         <div class="col-md-4">
           <div class="card-body">
-            <h5 class="card-title">Nome do pokemon</h5>
-            <p class="card-text"> Descrição do Pokémon</p>
+            <h5 class="card-title">{{ pokemon.name }}</h5>
           </div>
         </div>
         <div class="col-md-4">
           <div class="card-body">
-            <h5 class="card-title">{{pokemon.name}}</h5>
-            <p class="card-text"> {{pokemon.englishDescription}}</p>
-            <div class="btn-group button" style="gap: 10px;">
-              <button type="button btn" class="btn btn-primary">Primary</button>
-              <button type="button btn " class="btn btn-secondary">Secondary</button>
+            <p>
+              Peso: {{ (pokemon.characteristics.weight / 10).toFixed(1) }} kg
+            </p>
+            <p>Altura: {{ pokemon.characteristics.height * 10 }} cm</p>
+            <div class="btn-group button" style="gap: 10px">
+              <button
+                type="button"
+                class="btn btn-primary"
+                data-toggle="modal"
+                data-target="#modalComentario"
+              >
+                Adicionar comentário
+              </button>
+              <button type="button btn " class="btn btn-secondary">
+                Excluir comentário
+              </button>
             </div>
           </div>
         </div>

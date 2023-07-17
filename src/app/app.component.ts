@@ -1,20 +1,21 @@
-import { Component } from '@angular/core';
-import { Observable } from 'rxjs';
 import {
-  Description,
+  Characteristics,
   Pokemon,
-  PokemonCharacteristics,
   PokemonWithCharacteristics,
 } from 'src/types/Pokemon';
 import { Store, select } from '@ngrx/store';
 import {
-  setPokemonList,
-  increaseOffset,
   decreaseOffset,
+  increaseOffset,
   setLimit,
+  setPokemonList,
 } from './pokemon.actions';
-import api from 'src/config/axios';
+
+import { Component } from '@angular/core';
+import { Observable } from 'rxjs';
 import { PokemonState } from './pokemon.reducer';
+import api from 'src/config/axios';
+import firstLetterUpper from 'src/functions/firstLetterUpper';
 
 @Component({
   selector: 'app-root',
@@ -48,13 +49,10 @@ export class AppComponent {
         for (let e of data.results) {
           const characteristics = await this.getPokemonCharacteristics(e);
           // filter the characteristics to only include the english description
-          characteristics.descriptions = characteristics.descriptions.filter(
-            (e: Description) => e.language.name === 'en'
-          );
           result.push({
             ...e,
-            characteristics,
-            englishDescription: characteristics.descriptions[0].description,
+            name: firstLetterUpper(e.name),
+            characteristics
           });
         }
 
@@ -64,15 +62,16 @@ export class AppComponent {
       });
   }
 
-  async getPokemonCharacteristics(pokemon: Pokemon) {
+  async getPokemonCharacteristics(pokemon: Pokemon): Promise<Characteristics | undefined> {
     try {
-      console.log(pokemon.url.split('/')[6]);
       const { data } = await api.get(
-        `/characteristic/${pokemon.url.split('/')[6]}`
+        `/pokemon/${pokemon.name}`
       );
+      console.log(data, "oii");
       return data;
     } catch (err) {
       console.log(err);
+      return undefined;
     }
   }
 
