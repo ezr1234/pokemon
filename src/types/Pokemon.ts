@@ -307,4 +307,8 @@ export type Characteristics = {
 
 export type PokemonWithCharacteristics = Pokemon & {
   characteristics: Characteristics;
+  comment: {
+    name: string;
+    comment: string;
+  }
 };
