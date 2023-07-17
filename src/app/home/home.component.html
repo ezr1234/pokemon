@@ -13,13 +13,13 @@
       class="modal fade"
       id="commentModal"
       tabindex="-1"
-      aria-labelledby="exampleModalLabel"
+      aria-labelledby="commentModalLabel"
       aria-hidden="true"
     >
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">
+            <h5 class="modal-title" id="commentModalLabel">
               Adicionar comentário
             </h5>
             <button
@@ -76,7 +76,20 @@
         </div>
         <div class="col-md-4">
           <div class="card-body">
-            <h5 class="card-title">{{ pokemon.name }}</h5>
+            <h5 class="card-title">
+              {{ pokemon.name }}
+              <button
+                class="btn btn-light"
+                [routerLink]="['/details']"
+                [queryParams]="{ name: pokemon.name }"
+              >
+                Ver detalhes
+              </button>
+            </h5>
+            <p *ngIf="!pokemon.comment?.comment">Sem comentário adicionado</p>
+            <p *ngIf="pokemon.comment?.comment">
+              Comentário adicionado: {{ pokemon.comment?.comment }}
+            </p>
           </div>
         </div>
         <div class="col-md-4">
@@ -95,7 +108,11 @@
               >
                 Adicionar comentário
               </button>
-              <button type="button btn " class="btn btn-secondary">
+              <button
+                type="button btn "
+                class="btn btn-secondary"
+                (click)="deleteComment(pokemon)"
+              >
                 Excluir comentário
               </button>
             </div>
@@ -105,16 +122,11 @@
     </div>
   </div>
 
-  <footer aria-label="Page navigation example">
+  <footer aria-label="Page navigation">
     <ul class="pagination justify-content-center">
       <li class="page-item" (click)="previousPage()">
         <a class="page-link">Previous</a>
       </li>
-      <li class="page-item"><a class="page-link" href="#">1</a></li>
-      <li class="page-item"><a class="page-link" href="#">2</a></li>
-      <li class="page-item"><a class="page-link" href="#">3</a></li>
-      <li class="page-item"><a class="page-link" href="#">4</a></li>
-      <li class="page-item"><a class="page-link" href="#">5</a></li>
       <li class="page-item">
         <a class="page-link" (click)="nextPage()">Next</a>
       </li>

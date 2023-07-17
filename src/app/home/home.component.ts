@@ -56,6 +56,11 @@ export class HomeComponent {
   openCommentsModal(pokemon: PokemonWithCharacteristics) {
     this.commentModal.show();
     this.selectedPokemon = pokemon;
+    // put the value on the inputs if there is a comment
+    if (pokemon.comment) {
+      (<HTMLInputElement>document.getElementById("commentName")).value = pokemon.comment.name;
+      (<HTMLInputElement>document.getElementById("comment")).value = pokemon.comment.comment;
+    }
   }
 
   submitComment() {
@@ -64,14 +69,44 @@ export class HomeComponent {
     console.log(name, comment)
 
     this.pokemonList$.subscribe((pokemonList) => {
-      const list = [...pokemonList];
-      console.log(list[
-        pokemonList.indexOf(this.selectedPokemon as PokemonWithCharacteristics)
-      ])
-      return this.store.dispatch(setPokemonList(list));
-    })
+      const list = pokemonList.map(e => ({ ...e }))
+      const index = pokemonList.indexOf(this.selectedPokemon as PokemonWithCharacteristics);
+      list[index].comment = { name, comment }
+      console.log(list[index])
+      this.store.dispatch(setPokemonList(list));
+    });
+    (<HTMLInputElement>document.getElementById("commentName")).value = "";
+    (<HTMLInputElement>document.getElementById("comment")).value = "";
     this.commentModal.hide();
+  }
 
+  handleSearchChange() {
+    const value = (<HTMLInputElement>document.getElementById("searchInput")).value;
+    // get the pokemon list from the store
+    this.pokemonList$.subscribe((pokemonList) => {
+      // filter the list to only include the pokemon that match the search
+      console.log(pokemonList, "oii")
+      const filteredList = pokemonList.filter((pokemon) =>
+        pokemon.name.includes(value.toLowerCase())
+      );
+      // set the pokemon list to the filtered list
+      this.store.dispatch(setPokemonList(filteredList));
+    })
+  }
+
+  clearSearch() {
+    this.fetchPokemonList();
+  }
+
+  deleteComment(pokemon: PokemonWithCharacteristics) {
+    // delete the comment from the pokemon
+    this.pokemonList$.subscribe((pokemonList) => {
+      const list = pokemonList.map(e => ({ ...e }))
+      const index = pokemonList.indexOf(pokemon);
+      list[index].comment = undefined;
+      this.store.dispatch(setPokemonList(list));
+    })
+    window.alert("Comentário excluido com sucesso!")
   }
 
   openDetailsModal() {

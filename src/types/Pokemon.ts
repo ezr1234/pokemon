@@ -310,5 +310,5 @@ export type PokemonWithCharacteristics = Pokemon & {
   comment: {
     name: string;
     comment: string;
-  }
+  } | undefined;
 };
